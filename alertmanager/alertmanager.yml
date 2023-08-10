@@ -1,0 +1,25 @@
+global:
+  smtp_from: "alertmanager@matthijs.tech"
+  smtp_smarthost: "smtp4dev:25"
+  smtp_require_tls: false
+
+route:
+  group_by: []
+   # When a new group of alerts is created by an incoming alert, wait at
+  # least 'group_wait' to send the initial notification.
+  # This way ensures that you get multiple alerts for the same group that start
+  # firing shortly after another are batched together on the first
+  # notification.
+  group_wait: 10s
+
+  repeat_interval: 30s
+  receiver: team
+
+
+receivers:
+  - name: 'team'
+    email_configs:
+      - to: 'team-X-alerts@example.com'
+        send_resolved: true
+
+#https://github.com/prometheus/alertmanager/blob/main/doc/examples/simple.yml

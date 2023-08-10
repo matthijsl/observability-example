@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "3000:9090"
+    volumes:
+      - .:/etc/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.config.file=/etc/prometheus/web.yml"
+
+  grafana:
+    # https://grafana.com/grafana/dashboards/10915-asp-net-core-controller-summary-prometheus/
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+
+  alertmanager:
+    image: quay.io/prometheus/alertmanager
+    ports:
+      - "3004:9093"
+    volumes:
+      - .:/config
+    command:
+      - "--config.file=/config/alertmanager/alertmanager.yml"
+
+  blackbox:
+    image: quay.io/prometheus/blackbox-exporter
+    ports:
+      - "3003:9115"
+    volumes:
+      - .:/config
+    command:
+      - "--config.file=/config/blackbox/blackbox.yml"
+      # - "--log.level=debug"
+
+  dotnet:
+    build:
+      context: ./dotnet-7-0
+      dockerfile: ./Dockerfile
+    ports:
+      - "3002:80"
+
+
+### Demo purposes
+  httpecho:
+     image: hashicorp/http-echo
+     ports:
+       - "3005:5678"
+     command:
+        - "-text=hello world"
+  httpecho1:
+     image: hashicorp/http-echo
+     ports:
+       - "3006:5678"
+     command:
+        - "-text=hello world"
+
+  smtp4dev:
+    image: rnwood/smtp4dev
+    ports:
+      - "3007:80"
+      - "2525:25"

@@ -1,0 +1,4 @@
+- targets:
+    - http://prometheus:9090/metrics
+  labels:
+    module: http_basic_auth

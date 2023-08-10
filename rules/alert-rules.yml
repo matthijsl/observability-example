@@ -1,0 +1,13 @@
+groups:
+ - name: alert_rules
+   rules:
+
+    - alert: Instance down
+      expr: probe_success == 0 && probe_success
+      for: 10s
+      labels:
+       just_a_label: something
+      annotations:
+       summary: "Instance {{ $labels.instance }} down"
+       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minutes."
+

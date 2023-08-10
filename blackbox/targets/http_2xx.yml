@@ -1,0 +1,6 @@
+- targets:
+    - http://httpecho:5678
+    - http://httpecho1:5678
+    - https://duckduckgo.com
+  labels:
+    module: http_2xx
