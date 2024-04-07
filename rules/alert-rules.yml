@@ -3,7 +3,7 @@ groups:
    rules:
 
     - alert: Instance down
-      expr: probe_success == 0 && probe_success
+      expr: probe_success == 0
       for: 10s
       labels:
        just_a_label: something
